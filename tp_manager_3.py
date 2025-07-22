@@ -11,9 +11,9 @@ from config import LOG_FILENAME_DB1
 from mt5_client import connect_to_mt5
 # Config za MariaDB
 DB_CONFIG = {
-    "host": "192.168.100.217",
-    "user": "boki",         # ← prilagodi
-    "password": "Boki123455!", # ← prilagodi
+    "host": "",
+    "user": "",         # ← prilagodi
+    "password": "", # ← prilagodi
     "database": "trades"
 }
 

@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import MetaTrader5 as mt5
-# main.py i tp_manager.py
 from mt5_client import connect_to_mt5
 
 

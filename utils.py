@@ -1,8 +1,5 @@
 # utils.py
 import kanal.boki_loki as boki_loki
-import kanal.boki_test_loki as boki_test_loki
-import kanal.m15premium as m15premium
-import kanal.cjurefx as cjurefx
 import re
 import cv2
 import pytesseract
@@ -28,7 +25,6 @@ def process_image(image_path):
 
     # OCR to extract text
     text = pytesseract.image_to_string(gray)
-    # print("Text ",text)
 
     # Extract currency pair from the text
     match = re.search(r"([A-Z]{3} / [A-Z]{3})", text)
@@ -40,13 +36,6 @@ def process_image(image_path):
 def parse_signal_channel_default(message):
 
     try:
-        # lines = message.strip().split('\n')
-        # trade_type, price = lines[0].split()  # First line should be trade type and price
-        # tps = [float(line.split()[1]) for line in lines if line.startswith('TP')]  # Extract all TPs
-        # sl_line = next(line for line in lines if line.startswith('SL'))
-        # sl = float(sl_line.split()[1])
-        # pair_match = re.search(r'([A-Z]{3} / [A-Z]{3})', sl_line)
-        # pair = pair_match.group(1).replace(" / ","") if pair_match else ""
         
         signal_details = {}
 
@@ -81,26 +70,7 @@ def parse_signal_channel_default(message):
         print('M15 Premium')
         return None
 
-
-
-# channel_parsing_map = {
-#     # Assuming the default channel ID is 1222448337
-#     [-1002486504009,-1002464834753]: boki_loki.parse_signal,
-
-
-
-
-
-
-#     # Add more channel IDs and their parsing functions as needed
-# }
-
 def parse_signal(message, channel_id):
-    # print('============================================================================================================================')
-    # print('PARSE SIGNAL FUNCTION')
-    # print(message,channel_id)
-    # print('============================================================================================================================')
-
     try:
         # parsing_function = channel_parsing_map.get(channel_id)
         return boki_loki.parse_signal(message,channel_id)

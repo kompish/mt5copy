@@ -2,9 +2,9 @@
 import mysql.connector
 
 DB_CONFIG = {
-    "host": "192.168.100.217",
-    "user": "boki",         # ← promeni
-    "password": "Boki123455!", # ← promeni
+    "host": "",
+    "user": "",         # ← promeni
+    "password": "", # ← promeni
     "database": "trades"      # ← kreiraj ovu bazu ako ne postoji
 }
 

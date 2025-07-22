@@ -9,12 +9,7 @@ logging.basicConfig(
     filename=LOG_FILENAME,
     level=logging.INFO
 )
-kanal = {-1001832164233 : "CjureFx",
-         -1001978859237: "TradeMarketMovers",
-         -1001316056319: "ForexSignalStreet",
-         -1001541235802: "Learn2Trade",
-         -1001964313942: "1000PipsBuilder",
-         -1001269006602: "FxScorpionz"}
+
 def parse_signal(message,channel_id):
     try:
         

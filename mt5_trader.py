@@ -1,14 +1,9 @@
 # mt5_trader.py
-from database import create_table, insert_trade
-import db
-import db_1
 import db_3
 from id_kanal import id
 import MetaTrader5 as mt5
 import logging
 from datetime import datetime
-from trade_filter import is_trade_valid
-import filter_2
 from new_filter import analyze_signal
 
 from config import MT5_LOGIN, LOG_FILENAME
@@ -19,15 +14,11 @@ logging.basicConfig(
     level=logging.INFO
 )
 import pandas as pd
-# main.py i tp_manager.py
 from mt5_client import connect_to_mt5
 
 
 def place_order(signal,channel_id,message_id,channel_name):
 
-    # create_table()
-    # db.create_table()
-    # db_1.create_table()
     db_3.create_table()
     
     if not connect_to_mt5():
@@ -36,15 +27,11 @@ def place_order(signal,channel_id,message_id,channel_name):
 
     
     # PROVERA FILTERA
-    # is_valid, vwap, macd = is_trade_valid(signal['pair'], signal['signal'])
-    # final_ok, message, vwap_msg, macd_msg, rsi_msg, ema_msg = filter_2.is_trade_valid(signal['pair'], signal['signal'])
     result_filter = analyze_signal(signal['pair'],signal['signal'])
     ema_result = result_filter['status_ema']
     rsi_result = result_filter['status_rsi']
     mcad_result = result_filter['status_macd']
     vwap_result = result_filter['status_vwap']
-        # logging.info(f"Trade Filter Check: VWAP{vwap}, MACD{macd}")
-    # logging.info(f"Filter_2: {message}")
     
     order_type = mt5.ORDER_TYPE_BUY if signal['signal'] == 'Buy' or signal['signal'] == 'BUY' else mt5.ORDER_TYPE_SELL
     print(f"order type {order_type}")
@@ -73,9 +60,6 @@ def place_order(signal,channel_id,message_id,channel_name):
         }
         print("ORDER REQUEST: ",order_request,i)
         print(f"IME KANALA: {channel_name}")
-        # check_ema_conditions(signal['pair'])
-        # print(channel_id)
-        # print(type(channel_id))
 
 
         try:
@@ -86,43 +70,6 @@ def place_order(signal,channel_id,message_id,channel_name):
                     logging.error(f"Order {i} failed with error code {result.retcode}")
                 else:
                     logging.info(f"Order {i} placed successfully: {result}")
-                #     trade_data = (
-                #     result.order,                     # ticket
-                #     signal['pair'],                   # symbol
-                #     total_volume,                     # volume
-                #     price,                            # price
-                #     signal['stop_loss'],              # sl
-                #     signal['take_profit'][i],         # tp
-                #     'BUY' if order_type == mt5.ORDER_TYPE_BUY else 'SELL',  # type
-                #     order_request['comment'],         # comment
-                #     signal['signal'],                 # signal_direction
-                #     datetime.now().isoformat(),       # timestamp
-                #     str(channel_id),                  # channel_id
-                #     str(message_id),                   # message_id
-                #     str(vwap),
-                #     str(macd),
-                #     str(is_valid)
-                # )
-                #     trade_data_1 = (
-                #     result.order,                     # ticket
-                #     signal['pair'],                   # symbol
-                #     total_volume,                     # volume
-                #     price,                            # price
-                #     signal['stop_loss'],              # sl
-                #     signal['take_profit'][i],         # tp
-                #     'BUY' if order_type == mt5.ORDER_TYPE_BUY else 'SELL',  # type
-                #     order_request['comment'],         # comment
-                #     signal['signal'],                 # signal_direction
-                #     datetime.now().isoformat(),       # timestamp
-                #     str(channel_id),
-                #     id[str(channel_id)],                  # channel_id
-                #     str(message_id),                   # message_id
-                #     str(vwap_msg),
-                #     str(macd_msg),
-                #     float(rsi_msg),
-                #     str(ema_msg),
-                #     str(final_ok)
-                # )
                     trade_data_3 = (
                     result.order,                     # ticket
                     signal['pair'],                   # symbol
@@ -143,9 +90,6 @@ def place_order(signal,channel_id,message_id,channel_name):
                     str(ema_result),
                     str("final_ok")
                 )
-                    # insert_trade(trade_data)
-                    # db.insert_trade(trade_data)
-                    # db_1.insert_trade(trade_data_1)
                     db_3.insert_trade(trade_data_3)
             else:
                 last_error = mt5.last_error()
@@ -155,6 +99,4 @@ def place_order(signal,channel_id,message_id,channel_name):
             logging.error(f"An exception occurred for order {i}: {e}")
     
     print('=================================================================================')
-    # print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-    # print('=================================================================================')
     mt5.shutdown()
